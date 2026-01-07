@@ -1,6 +1,6 @@
 # DASM Assembler
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=plastic)](LICENSE)
 
 **DASM Assembler** is the official assembler for the DCPU architecture, which you can find more about [here](https://github.com/DavidMik08/DCPU-emulator).
 **Our goal** is for the user to be able to program using **words** instead of hex codes and to make it as user-friendly as possible while being as **low-level** as possible. 
@@ -108,4 +108,4 @@ loop_start:
 
 ## License
 
-This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
+This project is licensed under the **Apache 2.0 License**. See [LICENSE](LICENSE) for details.
