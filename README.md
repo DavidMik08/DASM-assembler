@@ -11,8 +11,7 @@ This project aims to:
 
 * Design a **custom CPU** with a unique instruction set
 * Provide a **two-pass assembler** to translate human-readable assembly code into machine code
-* Develop a **custom operating system** that loads programs from an external memory and handles I/O
-* Enable experimentation with **low-level programming, CPU design, and OS development**
+* Enable experimentation with **low-level programming**
 
 This is intended for enthusiasts, learners, and anyone interested in exploring **hardware-software co-design**.
 
@@ -24,7 +23,7 @@ This is intended for enthusiasts, learners, and anyone interested in exploring *
 * Supports labels, instruction modifiers, immediate values, and data directives
 * Outputs compact hexadecimal `.hex` files suitable for custom CPU execution
 
-### CPU Design
+### Instruction design
 
 * Instruction set architecture (ISA) defined
 * Fixed 4-byte instruction format
@@ -49,20 +48,22 @@ This is intended for enthusiasts, learners, and anyone interested in exploring *
 Make sure you have **Rust** installed.
 
 ```bash
+rustc --version
+```
+
+Compile the assembler.
+
+```bash
 cargo build
 ```
+
 
 The compiled binary will be located at:
 
 ```text
-target/release/DASM_assembler
+target/debug/DASM_assembler
 ```
 
-You can run the binary with: 
-
-```bash
-./DASM_assembler program.asm -o out.hex
-```
 
 ## Usage
 
@@ -72,7 +73,7 @@ cargo run -- <input.asm> [-o output.hex]
 
 ## Examples
 
-The examples are located in the ```/target/debug/examples```
+The examples are located in the ```/target/debug/examples/```
 
 ### Example:
 ```asm
