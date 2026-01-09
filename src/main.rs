@@ -50,11 +50,7 @@ fn asm_io(arg: &str) -> Option<i32> {
         "r0" => Some(0), "r1" => Some(1), "r2" => Some(2), "r3" => Some(3),
         "r4" => Some(4), "r5" => Some(5), "ram" => Some(6), "stk" => Some(7),
         _ => {
-            if arg.parse::<i32>().is_ok() {
-                None // numeric placeholder → handled by im1/im2
-            } else {
-                None // unknown
-            }
+            None
         }
     }
 }
@@ -109,7 +105,7 @@ fn handle_labels(line: &str, labels: &mut Vec<Definition>, len: &mut u32) {
     return;
 }
 
-fn assemble_line(line: &str, program: &mut String, len: &mut u32, labels: &mut Vec<Definition>) {
+fn assemble_line(line: &str, program: &mut String, labels: &mut Vec<Definition>) {
     let line = line.trim();
     if line.is_empty() || line.starts_with(';') {
         return; // skip empty or comment lines
@@ -127,11 +123,10 @@ fn assemble_line(line: &str, program: &mut String, len: &mut u32, labels: &mut V
     if count > 0 {
         let value_str = line[2..].trim();
         let value = match value_str.parse::<i64>() {
-            Ok(v) => v,
+            Ok(v) => v, 
             Err(_) => {
                 eprintln!("Failed to parse value: '{}'", value_str);
-                return;
-            }
+                return;}
         };
 
         for i in 0..count {
@@ -160,18 +155,29 @@ fn assemble_line(line: &str, program: &mut String, len: &mut u32, labels: &mut V
             eprintln!("Skipping unknown instruction: '{}'", inst);
             return;
         }
-        *len += 4;
         let args: Vec<&str> = parts.collect();
-
+        /*
         // Numeric argument flags
-        if args.get(0).map(|s| s.parse::<i32>().is_ok()).unwrap_or(false) {
+        if args.get(0).map(|s| s.parse::<i32>().is_ok()).unwrap_or(false) || labels.iter().find(|def| def.name == args.get(0).map(|s| s.to_string()).unwrap_or_default()).is_some() {
             inst_index += 128; // im1
         }
-        if args.get(1).map(|s| s.parse::<i32>().is_ok()).unwrap_or(false) {
+        if args.get(1).map(|s| s.parse::<i32>().is_ok()).unwrap_or(false) || labels.iter().find(|def| def.name == args.get(1).map(|s| s.to_string()).unwrap_or_default()).is_some() {
             inst_index += 64; // im2
         }
-
+        */
+        // Numeric argument flags
+        if args.get(0).map(|s| {
+            let cleaned = s.trim_end_matches(".Low").trim_end_matches(".Mid").trim_end_matches(".High");
+            cleaned.parse::<i32>().is_ok() || labels.iter().any(|def| def.name == cleaned)
+        }).unwrap_or(false) { inst_index += 128; }
+        
+        if args.get(1).map(|s| {
+            let cleaned = s.trim_end_matches(".Low").trim_end_matches(".Mid").trim_end_matches(".High");
+            cleaned.parse::<i32>().is_ok() || labels.iter().any(|def| def.name == cleaned)
+        }).unwrap_or(false) { inst_index += 64; }  
         program.push_str(&format!("{:02x}", inst_index).to_string());
+
+
         
         // Write arguments
         for part in args {
@@ -229,7 +235,7 @@ fn main() -> io::Result<()> {
     }
 
     for line in &lines {
-        assemble_line(&line, &mut program, &mut len, &mut labels);
+        assemble_line(&line, &mut program, &mut labels);
     }
     println!("LEN: {}", len);
 
