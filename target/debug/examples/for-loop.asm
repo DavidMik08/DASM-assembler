@@ -26,3 +26,6 @@ loop_start:
   add_igf loop_start.Mid 0 r4
   add_igf loop_start.High 0 r5
   biz 0 0 r0
+
+end_loop:
+  brk 0 0 r0
