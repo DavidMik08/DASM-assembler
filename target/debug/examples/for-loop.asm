@@ -27,5 +27,5 @@ loop_start:
   add_igf loop_start.High 0 r5
   biz 0 0 r0
 
-end_loop:
+loop_end:
   brk 0 0 r0
