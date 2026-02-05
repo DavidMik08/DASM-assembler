@@ -52,11 +52,11 @@ fn asm_inst(inst: &str) -> i32 {
 fn asm_io(arg: &str) -> Option<i32> {
     match arg {
         "r0" => Some(0), "r1" => Some(1), "r2" => Some(2), "r3" => Some(3),
-        "r4" => Some(4), "r5" => Some(5), "ram" => Some(6), "stk" => Some(7),
-        "p0" => Some(8), "p1" => Some(9), "p2" => Some(10), "p3" => Some(11),
-        _ => {
-            None
-        }
+        "r4" => Some(4), "r5" => Some(5), "r6" => Some(6), "r7" => Some(7), 
+        "r8" => Some(8), 
+        "ram" => Some(9), "stk" => Some(10),
+        "p0" => Some(11), "p1" => Some(12), "p2" => Some(13), "p3" => Some(14),
+        _ => None
     }
 }
 
